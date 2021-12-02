@@ -1,0 +1,73 @@
+---
+title: "day2"
+author: "Jacob Becker"
+date: "12/2/2021"
+output: html_document
+---
+
+```{r}
+setwd("Your Directory here")
+library(tidyverse)
+library(dplyr)
+library(stringr)
+library(readr)
+library(magrittr)
+```
+
+```{r}
+depth <- read_csv("input2.csv")
+#depth <- read_csv("day2.csv")
+
+numextract <- function(string){ 
+  str_extract(string, "\\-*\\d+\\.*\\d*")
+} 
+
+depth.clean <- depth %>% 
+  mutate(direction = gsub('[[:digit:]]+', '', depth$Direction)) %>% 
+  mutate(distance = numextract(depth$Direction)) %>% 
+  select(-Direction)
+depth.clean$distance <- as.numeric(as.character(depth.clean$distance))
+
+forward.direction <- depth.clean %>% 
+  filter(!grepl("down",direction)) %>% 
+  filter(!grepl("up",direction))
+
+up.direction <- depth.clean %>% 
+  filter(!grepl("down",direction)) %>% 
+  filter(!grepl("forward",direction))
+
+down.direction <- depth.clean %>% 
+  filter(!grepl("forward",direction)) %>% 
+  filter(!grepl("up",direction))
+
+x <- sum(forward.direction$distance)
+y <- sum(up.direction$distance)
+z <- sum(down.direction$distance)
+
+(z - y) * x
+```
+
+```{r}
+aim <- 0
+horizontal <- 0
+depth <- 0
+
+for(i in 1:1000){
+  
+  if(depth.clean$direction[i] == "down "){
+    aim = aim + depth.clean$distance[i] 
+   
+  } else if(depth.clean$direction[i] == "up "){
+    aim = aim - depth.clean$distance[i]
+    
+  }else{
+    horizontal = horizontal +depth.clean$distance[i]
+    depth = depth + aim * depth.clean$distance[i]
+  }
+  }
+print(depth * horizontal)
+
+
+
+```
+
