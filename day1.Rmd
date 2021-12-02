@@ -1,0 +1,38 @@
+---
+title: "day 1"
+author: "Jacob Becker"
+date: "12/1/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+setwd("C:\\Users\\Jacob\\Desktop\\Advent of Cringe")
+library(tidyverse)
+library(dplyr)
+```
+
+```{r}
+numbers <- read_csv("day1.csv")
+
+input <- read_csv("input.csv")
+
+
+sum(diff(input$Numbers) > 0)
+```
+
+```{r}
+rolling <- input$Numbers + lead(input$Numbers) + lead(input$Numbers, 2)
+rolling.full <-na.omit(rolling)
+
+sum(diff(rolling.full) > 0)
+```
+
+
+```{r}
+x1 <- diff(numbers$Numbers)
+sum(x1 > 0)
+
+x2 <- diff(input$Numbers)
+sum(x2 > 0)
+```
+
