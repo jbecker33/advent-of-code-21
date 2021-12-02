@@ -6,7 +6,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-setwd("C:\\Users\\Jacob\\Desktop\\Advent of Cringe")
+setwd("Your repository here")
 library(tidyverse)
 library(dplyr)
 ```
